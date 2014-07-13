@@ -1,0 +1,28 @@
+---
+title: "Exploratory Data Analysis - Project 1 - Plot 2"
+author: "Ruben Adad"
+date: "july 12, 2014"
+output: html_document
+---
+
+This is an R Markdown document. 
+
+```{r}
+setwd("~/Documents/CURSOS/Exploratory Data Analysis/rdpeng-ExData_Plotting1")
+classes <- rep("character",9)
+epc <- read.csv2("household_power_consumption.txt", colClasses = classes)
+nrow(epc)
+epc$Date <- as.Date(strptime(epc$Date, format = "%d/%m/%Y"))
+summary(epc$Date)
+epc_feb <- subset(epc, Date >= "2007-02-01" & Date <= "2007-02-02")
+names(epc_feb)
+nrow(epc_feb)
+epc_feb$Time <- strptime(paste(epc_feb$Date, epc_feb$Time), format = "%Y-%m-%d %H:%M:%S")
+summary(epc_feb$Time)
+epc_feb$Global_active_power <- as.numeric(epc_feb$Global_active_power)
+plot(epc_feb$Time, epc_feb$Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)")
+dev.copy(png, file = "plot2.png", width=480, height=480)
+dev.off()
+```
+
+

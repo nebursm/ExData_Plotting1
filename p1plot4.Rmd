@@ -1,0 +1,40 @@
+---
+title: "Exploratory Data Analysis - Project 1 - Plot 4"
+author: "Ruben Adad"
+date: "july 12, 2014"
+output: html_document
+---
+
+This is an R Markdown document. 
+
+```{r, fig.width=7, fig.height=7}
+setwd("~/Documents/CURSOS/Exploratory Data Analysis/rdpeng-ExData_Plotting1")
+classes <- rep("character",9)
+epc <- read.csv2("household_power_consumption.txt", colClasses = classes)
+nrow(epc)
+epc$Date <- as.Date(strptime(epc$Date, format = "%d/%m/%Y"))
+summary(epc$Date)
+epc_feb <- subset(epc, Date >= "2007-02-01" & Date <= "2007-02-02")
+names(epc_feb)
+nrow(epc_feb)
+epc_feb$Time <- strptime(paste(epc_feb$Date, epc_feb$Time), format = "%Y-%m-%d %H:%M:%S")
+summary(epc_feb$Time)
+epc_feb$Global_active_power <- as.numeric(epc_feb$Global_active_power)
+epc_feb$Voltage <- as.numeric(epc_feb$Voltage)
+epc_feb$Global_reactive_power <- as.numeric(epc_feb$Global_reactive_power)
+epc_feb$Sub_metering_1 <- as.numeric(epc_feb$Sub_metering_1)
+epc_feb$Sub_metering_2 <- as.numeric(epc_feb$Sub_metering_2)
+epc_feb$Sub_metering_3 <- as.numeric(epc_feb$Sub_metering_3)
+par(mfrow = c(2,2))
+plot(epc_feb$Time, epc_feb$Global_active_power, type="l", xlab="", ylab="Global Active Power")
+plot(epc_feb$Time, epc_feb$Voltage, type="l", xlab="datetime", ylab="Voltage")
+plot(epc_feb$Time, epc_feb$Sub_metering_1 <- as.numeric(epc_feb$Sub_metering_1), type="l", xlab="", ylab="Energy sub metering")
+lines(epc_feb$Time, epc_feb$Sub_metering_2, type="l", col="red")
+lines(epc_feb$Time, epc_feb$Sub_metering_3, type="l", col="blue")
+legend("topright", names(epc_feb)[7:9], lty=1, col=c("black", "red", "blue"), bty="o", cex=0.85)
+plot(epc_feb$Time, epc_feb$Global_reactive_power, type="l", xlab="datetime", ylab="Global reactive power")
+dev.copy(png, file = "plot4.png", width=480, height=480)
+dev.off()
+```
+
+
